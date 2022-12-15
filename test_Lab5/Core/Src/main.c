@@ -90,6 +90,7 @@ uint32_t value=0;
 int state=INIT;
 int command_flag=0;
 int command_data=0;
+int previous_packet=0;
 void command_parser_fsm(){
 	switch(state){
 	case INIT:
@@ -146,6 +147,7 @@ void command_parser_fsm(){
 //	HAL_UART_Transmit(&huart2, str, sprintf(str,"STATE:%d "
 //			"TEMP:%c flag:%d data:%d\r",state,temp,command_flag,command_data), 100);
 }
+int analog_Read=0;
 void readAnalog(){
 	HAL_ADC_Start(&hadc1);
 	HAL_ADC_PollForConversion(&hadc1,1);
@@ -158,12 +160,17 @@ void uart_communication_fsm(){
 		case RST:
 			if(timer1_flag==1){
 				setTimer1(3000);
-				readAnalog();
-				HAL_UART_Transmit(&huart2, str, sprintf(str,"!ADC=%d#\r",value), 100);
+				if(analog_Read==0){
+					readAnalog();
+					analog_Read=1;
+					previous_packet=value;
+				}
+				HAL_UART_Transmit(&huart2, str, sprintf(str,"!ADC=%d#\r",previous_packet), 100);
 			}
 			break;
 		case OK:
 			command_flag=0;
+			analog_Read=0;
 			break;
 		}
 	}
