@@ -165,7 +165,7 @@ void uart_communication_fsm(){
 					analog_Read=1;
 					previous_packet=value;
 				}
-				HAL_UART_Transmit(&huart2, str, sprintf(str,"!ADC=%d#\r",previous_packet), 100);
+				HAL_UART_Transmit(&huart2, str, sprintf(str,"!ADC=%d#\r\n",previous_packet), 100);
 			}
 			break;
 		case OK:

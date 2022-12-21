@@ -632,7 +632,7 @@ void uart_communication_fsm(){
  8000498:	461a      	mov	r2, r3
  800049a:	4b13      	ldr	r3, [pc, #76]	; (80004e8 <uart_communication_fsm+0x90>)
  800049c:	601a      	str	r2, [r3, #0]
-				HAL_UART_Transmit(&huart2, str, sprintf(str,"!ADC=%d#\r",previous_packet), 100);
+				HAL_UART_Transmit(&huart2, str, sprintf(str,"!ADC=%d#\r\n",previous_packet), 100);
  800049e:	4b12      	ldr	r3, [pc, #72]	; (80004e8 <uart_communication_fsm+0x90>)
  80004a0:	681b      	ldr	r3, [r3, #0]
  80004a2:	461a      	mov	r2, r3
